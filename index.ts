@@ -5,7 +5,7 @@ process.env.BUN_CONFIG_VERBOSE_FETCH = "true";
 const server = Bun.serve({
   port: 3000,
 
-  fetch(req) {
+  async fetch(req) {
     const url = new URL(req.url);
 
     // /
@@ -35,6 +35,20 @@ const server = Bun.serve({
     if (url.pathname === "/figlet") {
       const body = figlet.textSync("Bun!");
       return new Response(body, {
+        headers: { "Content-Type": "text/plain" },
+      });
+    }
+
+    // /hashp
+    if (url.pathname === "/hashp") {
+      const password = "super-secure-pa$$word";
+
+      const bcryptHash = await Bun.password.hash(password, {
+        algorithm: "bcrypt",
+        cost: 4, // number between 4-31
+      });
+      const isMatch = await Bun.password.verify(password, bcryptHash);
+      return new Response(JSON.stringify({ isMatch }), {
         headers: { "Content-Type": "text/plain" },
       });
     }

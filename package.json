@@ -2,10 +2,17 @@
   "name": "bunfist",
   "module": "index.ts",
   "type": "module",
+   "scripts": { 
+    "start": "bun --watch --inspect run index.ts"
+  }, 
   "devDependencies": {
-    "@types/bun": "latest"
+    "@types/bun": "latest",
+    "@types/figlet": "^1.7.0"
   },
   "peerDependencies": {
     "typescript": "^5"
+  },
+  "dependencies": {
+    "figlet": "^1.10.0"
   }
 }
